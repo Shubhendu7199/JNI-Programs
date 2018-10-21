@@ -1,0 +1,52 @@
+package sortingdeemo;
+import java.io.*;
+import java.util.*;
+public class SortingDeemo {
+static
+{
+    System.load("D:\\javapro\\SortingDeeemo\\dist\\sorted.dll");
+}
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        int n;
+        n=s.nextInt();
+        int[] b=new int[20];
+        int[] c=new int[20];
+        for(int i=0;i<n;i++)
+            b[i]=s.nextInt();
+        SortingDeemo sd=new SortingDeemo();
+        c=sd.sorting(b,n);
+        // TODO code application logic here
+        for(int i=0;i<n;i++)
+            System.out.println("value of "+i+" is "+c[i]);
+    }
+    private native int[] sorting(int[] b,int n);
+}
+
+C Program
+#include <stdio.h>
+#include <stdlib.h>
+#include <jni.h>
+#include "soheader.h"
+JNIEXPORT jintArray JNICALL Java_sortingdeemo_SortingDeemo_sorting
+  (JNIEnv *env, jobject job, jintArray b, jint n) {
+ 
+    int i,j,temp;
+    jint *p=(*env)->GetIntArrayElements(env,b,NULL);
+    for(i=0;i<n-1;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if(p[i]>p[j])
+            {
+                temp=p[i];
+                p[i]=p[j];
+                p[j]=temp;
+            }
+        }
+    }
+    jintArray array=(*env)->NewIntArray(env,n);
+    (*env)->SetIntArrayRegion(env,array,0,n,p);
+    return array;
+    
+}

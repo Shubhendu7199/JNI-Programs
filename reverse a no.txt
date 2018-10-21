@@ -1,0 +1,38 @@
+package reverse;
+import java.io.*;
+import java.util.*;
+public class Reverse {
+    static{
+        System.load("C:\\Users\\hp\\Documents\\NetBeansProjects\\rever\\revert\\he.dll");
+    }
+    
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+    int a;
+    a=s.nextInt();
+    Reverse sd=new Reverse();
+   int c=sd.reverse(a);
+   System.out.println("reverse="+c);
+    }
+    private native int reverse(int a);
+}
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <jni.h>
+JNIEXPORT jint JNICALL Java_reverse_Reverse_reverse
+  (JNIEnv *env, jobject job, jint a) {
+     int num, c = 0, remainder;
+scanf("%d", &num);
+    a = num;
+    while (num > 0)
+    {
+        remainder = num % 10;
+        c = c * 10 + remainder;
+        num /= 10;
+    }return c;
+     
+}
+
+

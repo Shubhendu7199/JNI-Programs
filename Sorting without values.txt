@@ -1,0 +1,50 @@
+package sortdemo;
+import java.io.*;
+import java.util.*;
+public class SortDemo {
+
+    
+    static
+    {
+        System.load("D:\\javapro\\Sortingdemo\\dist\\sort.dll");
+    }
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        int n;
+        n=s.nextInt();
+        int[] b=new int[20];
+        for(int i=1;i<=n;i++)
+            b[i]=s.nextInt();
+        SortDemo sd=new SortDemo();
+        sd.sorting(b,n);
+        // TODO code application logic here
+    }
+    private native void sorting(int[] b,int n);
+}
+
+C Program
+#include <stdio.h>
+#include <stdlib.h>
+#include <jni.h>
+#include "sortheader.h"
+JNIEXPORT void JNICALL Java_sortdemo_SortDemo_sorting
+  (JNIEnv *env, jobject job, jintArray b, jint n) {
+ 
+    int i,j,temp;
+    jint *p=(*env)->GetIntArrayElements(env,b,NULL);
+    for(i=1;i<n;i++)
+    {
+        for(j=i+1;j<=n;j++)
+        {
+            if(p[i]>p[j])
+            {
+                temp=p[i];
+                p[i]=p[j];
+                p[j]=temp;
+            }
+        }
+    }
+    for(i=1;i<=n;i++)
+        printf("%d\n",p[i]);
+    
+}

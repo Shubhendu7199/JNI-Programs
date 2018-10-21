@@ -1,0 +1,76 @@
+Java Class:
+package accountdetails;
+import java.util.Calendar; 
+import java.util.GregorianCalendar; 
+ public class Accountdetails {
+private String Date; 
+private long Acct_no; 
+private String Name; 
+private final double Balance_amt = 100000; 
+private double Withdraw_amount; 
+public double getWithdraw_amount() { 
+return Withdraw_amount; 
+} 
+public void setWithdraw_amount(double Withdraw_amount) { 
+this.Withdraw_amount = Withdraw_amount; 
+} 
+public double getBalance_amt() { 
+return Balance_amt; 
+} 
+public String getName() { 
+return Name; 
+} 
+public void setName(String Name) { 
+this.Name = Name; 
+} 
+public long getAcct_no() { 
+return Acct_no; 
+} 
+public void setAcct_no(long Acct_no) { 
+this.Acct_no = Acct_no; 
+} 
+public String getDate() { 
+return Date; 
+} 
+public void setDate(String Date) { 
+this.Date = Date; 
+} 
+public void generate_SystemDate() 
+{ 
+Calendar cal = new GregorianCalendar(); 
+int month = cal.get(Calendar.MONTH); 
+int year = cal.get(Calendar.YEAR); 
+int day = cal.get(Calendar.DAY_OF_MONTH); 
+setDate("Date is : " + day + "/" + (month + 1) + "/" + year); 
+} 
+public double current_Balance ( )    { 
+double balance = Balance_amt-Withdraw_amount; 
+if(Withdraw_amount>Balance_amt) 
+{ 
+return Balance_amt; 
+} 
+else 
+{ 
+return balance; 
+} 
+} 
+} 
+
+JFrame Class:
+
+OK Button:
+accountDetail_Bean1.setName(Text_name.getText()); 
+accountDetail_Bean1.setAcct_no(Long.parseLong(Text_AccountNo.getText())); 
+double bala=accountDetail_Bean1.getBalance_amt(); 
+Double balance = new Double(bala); 
+Text_balance.setText(balance.toString()); 
+accountDetail_Bean1.setWithdraw_amount(Double.parseDouble(Text_Withdraw.getText())); 
+double current_balance=accountDetail_Bean1.current_Balance(); 
+Double current_bala = new Double(current_balance); 
+Lbl_Balance.setText("Current Balance is=="+current_bala.toString()); 
+
+Message Button:
+
+String Message="Balance in your Account No:"+accountDetail_Bean1.getAcct_no()+ 
+" as on "+ Lbl_date.getText()+" is :"+ accountDetail_Bean1.getBalance_amt(); 
+JOptionPane.showMessageDialog(null, Message, "SMS", 1); 

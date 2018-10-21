@@ -1,0 +1,45 @@
+package objectpass;
+import java.io.*;
+import java.util.*;
+public class Objectpass {
+    private int number=100;
+    private String message="hi";
+/*static
+{
+    System.load("C:\\Users\\hp\\Documents\\NetBeansProjects\\objpass\\objpass\\obj.dll");
+}*/
+    public static void main(String[] args) {
+        Objectpass op=new Objectpass();
+        op.modify();
+        System.out.println("Number In Java="+op.number+"\n"+"Text in Java="+op.message);
+        
+    }
+    private native void modify();
+}
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <jni.h>
+#include "objectheader.h"
+JNIEXPORT void JNICALL Java_objectpass_Objectpass_modify
+  (JNIEnv *env, jobject job)
+{
+    jclass tc=(*env)->GetObjectClass(env,job);
+    jfieldID fid=(*env)->GetFieldID(env,tc,"number","I");
+    jint num=(*env)->GetIntField(env,job,fid);
+    printf("Number in c=%d",num);
+    num=200;
+    (*env)->SetIntField(env,job,fid,num);
+    jfieldID fidm=(*env)->GetFieldID(env,tc,"message","Ljava/lang/String;");
+    jstring mess=(*env)->GetObjectField(env,job,fidm);
+    const char *str=(*env)->GetStringUTFChars(env,mess,NULL);
+    printf("\nMessage in C=%s\n",str);
+    mess=(*env)->NewStringUTF(env,"hello");
+    (*env)->SetObjectField(env,job,fidm,mess);
+}

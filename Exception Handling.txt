@@ -1,0 +1,115 @@
+3-java
+----------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package exceptionjni;
+import java.io.*;
+import java.util.*;
+/**
+ *
+ * @author kartik bhojak
+ */
+public class EXCEPTIONJNI {
+    static
+    {
+        System.load("C:\\Program Files\\NetBeans 8.2\\new folder\\exception.c\\dest\\dest.dll");
+    }
+   private native int intMethod(int a,int b);
+   private native boolean booleanMethod(boolean text);
+   private native String stringMethod(String text1);
+   private native void catchThrow() throws IllegalArgumentException;
+  private void callback() throws NullPointerException {
+    throw new NullPointerException("thrown in CatchThrow.callback");
+  }
+
+    
+    public static void main(String[] args) {
+        EXCEPTIONJNI c = new EXCEPTIONJNI();
+       int prod=c.intMethod(5,7);
+       boolean b=c.booleanMethod(true);
+       String str=c.stringMethod("lol");
+       System.out.println("product of number="+prod);
+       System.out.println("BOOLEAN="+b);
+       System.out.println("STRING="+str);
+    try {
+      c.catchThrow();
+    } catch (Exception e) {
+      System.out.println("In Java:\n  " + e);
+    }
+  }
+
+    }
+3 c-code
+--------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   main.c
+ * Author: kartik bhojak
+ *
+ * Created on 10 August, 2018, 1:57 PM
+ */
+
+#include <jni.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "head.h"
+#include <string.h>
+/*
+ * 
+ */
+JNIEXPORT jint JNICALL Java_exceptionjni_EXCEPTIONJNI_intMethod
+  (JNIEnv *env, jobject obj, jint a, jint b){
+    jint c=a*b;
+    return c;
+}
+
+JNIEXPORT jboolean JNICALL Java_exceptionjni_EXCEPTIONJNI_booleanMethod
+  (JNIEnv *env, jobject obj, jboolean b){
+    jboolean boo=!b;
+    return boo;
+}
+
+JNIEXPORT jstring JNICALL Java_exceptionjni_EXCEPTIONJNI_stringMethod
+  (JNIEnv *env, jobject obj, jstring str){
+    const jbyte *s;
+    s=(*env)->GetStringUTFChars(env,str,NULL);
+    char *strr;
+    strr=strupr(s);
+    jstring js2=(*env)->NewStringUTF(env,strr);
+    return js2;
+}
+
+JNIEXPORT void JNICALL Java_exceptionjni_EXCEPTIONJNI_catchThrow
+  (JNIEnv *env, jobject obj){
+        jclass cls = (*env)->GetObjectClass(env, obj);
+  jmethodID mid = (*env)->GetMethodID(env, cls, "callback", "()V");
+  jthrowable exc;
+  if (mid == 0) {
+    return;
+  }
+  (*env)->CallVoidMethod(env, obj, mid);
+  exc = (*env)->ExceptionOccurred(env);
+  if (exc) {
+    
+    jclass newExcCls;
+
+    (*env)->ExceptionDescribe(env);
+    (*env)->ExceptionClear(env);
+
+    newExcCls = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
+    if (newExcCls == 0) { 
+      return;
+    }
+    (*env)->ThrowNew(env, newExcCls, "thrown from C code");
+  }
+
+}
+

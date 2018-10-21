@@ -1,0 +1,86 @@
+SERVER SIDE:
+
+package ejbpkg;
+
+import javax.ejb.Stateful;
+@Stateful
+public class bank implements bankRemote {
+int balance=100000;
+    @Override
+    public void wirthDraw(int amount) {
+        balance=balance-amount;
+    }
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
+
+    @Override
+    public void deposite(int dep_amt) {
+        balance=balance+dep_amt;
+    }
+
+    @Override
+    public int balance() {
+        return balance;
+    }
+    
+}
+CLIENT SIDE:
+
+package exp5a_client_bankappl;
+
+import ejbpkg.bankRemote;
+import javax.ejb.EJB;
+import java.util.*;
+
+public class Main {
+
+    @EJB
+    private static bankRemote bank;
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        int i=0;
+        while(i!=5){
+            int ch;
+            Scanner sc=new Scanner(System.in);
+            System.out.println("enter your choice");
+            ch=sc.nextInt();
+            switch(ch){
+                case 1:int amount;
+                System.out.println("enter amount to withdraw");
+                amount=sc.nextInt();
+                bank.wirthDraw(amount);
+                System.out.println(bank.balance());
+                break;
+                case 2:int dep_amt;
+                System.out.println("enter amount to add");
+                dep_amt=sc.nextInt();
+                bank.deposite(dep_amt);
+                System.out.println(bank.balance());
+               break;
+               
+                case 3: System.exit(0);
+                break;
+            }
+            i++;
+        }
+    }
+    
+}
+
+
+
+war:
+
+
+  <form action="sdd" method="POST">
+            
+            <input type="text" name="parameter"  placeholder="item_add" ><br>
+            <input type="text" name="buy" placeholder="item_remove" ><br>
+            <input type="text" name="choice"  placeholder="choice">
+            <input type="submit" value="SUBMIT">
+        </form>
