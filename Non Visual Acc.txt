@@ -59,18 +59,18 @@ return balance;
 JFrame Class:
 
 OK Button:
-accountDetail_Bean1.setName(Text_name.getText()); 
-accountDetail_Bean1.setAcct_no(Long.parseLong(Text_AccountNo.getText())); 
-double bala=accountDetail_Bean1.getBalance_amt(); 
+        accountdetails1.setName(jTextField2.getText()); 
+accountdetails1.setAcct_no(Long.parseLong(jTextField1.getText())); 
+double bala=accountdetails1.getBalance_amt(); 
 Double balance = new Double(bala); 
-Text_balance.setText(balance.toString()); 
-accountDetail_Bean1.setWithdraw_amount(Double.parseDouble(Text_Withdraw.getText())); 
-double current_balance=accountDetail_Bean1.current_Balance(); 
+jTextField3.setText(balance.toString()); 
+accountdetails1.setWithdraw_amount(Double.parseDouble(jTextField4.getText())); 
+double current_balance=accountdetails1.current_Balance(); 
 Double current_bala = new Double(current_balance); 
-Lbl_Balance.setText("Current Balance is=="+current_bala.toString()); 
+jLabel6.setText("Current Balance is=="+current_bala.toString()); 
 
 Message Button:
 
-String Message="Balance in your Account No:"+accountDetail_Bean1.getAcct_no()+ 
-" as on "+ Lbl_date.getText()+" is :"+ accountDetail_Bean1.getBalance_amt(); 
+        String Message="Balance in your Account No:"+accountdetails1.getAcct_no()+ 
+" is :"+ accountdetails1.getBalance_amt(); 
 JOptionPane.showMessageDialog(null, Message, "SMS", 1); 
